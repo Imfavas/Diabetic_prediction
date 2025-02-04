@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diabetes Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f9fc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            width: 400px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .error {
+            color: red;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Diabetes Prediction</h2>
+        <form action="/predict" method="POST">
+            <input type="number" name="pregnancies" placeholder="Pregnancies (0-20)" required min="0" max="20" step="1">
+            <input type="number" name="glucose" placeholder="Glucose (50-200)" required min="50" max="200">
+            <input type="number" name="blood_pressure" placeholder="Blood Pressure (30-120)" required min="30" max="120">
+            <input type="number" name="skin_thickness" placeholder="Skin Thickness (0-99)" required min="0" max="99">
+            <input type="number" name="insulin" placeholder="Insulin (0-900)" required min="0" max="900">
+            <input type="number" name="bmi" placeholder="BMI (10.0-60.0)" required min="10" max="60" step="0.1">
+            <input type="number" name="dpf" placeholder="Diabetes Pedigree Function (0.0-2.5)" required min="0" max="2.5" step="0.01">
+            <input type="number" name="age" placeholder="Age (0-120)" required min="0" max="120" step="1">
+            <button type="submit">Predict</button>
+        </form>
+        {% if prediction_text %}
+            <p class="error">{{ prediction_text }}</p>
+        {% endif %}
+    </div>
+</body>
+</html>
