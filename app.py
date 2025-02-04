@@ -4,7 +4,6 @@ import numpy as np
 
 app = Flask(__name__)
 
-# Load the model and scaler
 with open('diabetes_model.pkl', 'rb') as model_file:
     model = pickle.load(model_file)
 
@@ -12,11 +11,8 @@ with open('scaler.pkl', 'rb') as scaler_file:
     scaler = pickle.load(scaler_file)
 
 
-# Validator function
 def validate_features(data):
     errors = []
-
-    # Validate each field
     if not (0 <= data['pregnancies'] <= 20):
         errors.append("Pregnancies must be between 0 and 20.")
     if not (50 <= data['glucose'] <= 200):
@@ -45,7 +41,6 @@ def home():
 @app.route('/predict', methods=['POST'])
 def predict():
     try:
-        # Collect input values
         features = {
             'pregnancies': float(request.form['pregnancies']),
             'glucose': float(request.form['glucose']),
@@ -57,16 +52,12 @@ def predict():
             'age': float(request.form['age']),
         }
 
-        # Validate the input values
         errors = validate_features(features)
         if errors:
             return render_template('index.html', prediction_text="; ".join(errors))
-
-        # Standardize the features
         feature_values = list(features.values())
         scaled_features = scaler.transform([feature_values])
 
-        # Make prediction
         prediction = model.predict(scaled_features)
         result = "Diabetic" if prediction[0] == 1 else "Not Diabetic"
 
